@@ -3,18 +3,18 @@ services:
   - docker
 
 before_install:
-  - docker build -t alexskiffin/docker-react -f ./client/Dockerfile.dev ./client
+  - docker build -t alexskiffin/multi-docker -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run -e CI=true alexskiffin/docker-react npm run test
+  - docker run -e CI=true alexskiffin/multi-docker npm run test
 
 after_success:
-  - docker build -t alexskiffin/multi-client ./client
-  - docker build -t alexskiffin/multi-nginx ./nginx
-  - docker build -t alexskiffin/multi-server ./server
-  - docker build -t alexskiffin/multi-worker ./worker
+  - docker build -t alex-skiffin/multi-client ./client
+  - docker build -t alex-skiffin/multi-nginx ./nginx
+  - docker build -t alex-skiffin/multi-server ./server
+  - docker build -t alex-skiffin/multi-worker ./worker
   - echo "$docker_password" | docker login -u "$docker_id" --password-stdin
-  - docker push alexskiffin/multi-client
-  - docker push alexskiffin/multi-nginx
-  - docker push alexskiffin/multi-server
-  - docker push alexskiffin/multi-worker
+  - docker push alex-skiffin/multi-client
+  - docker push alex-skiffin/multi-nginx
+  - docker push alex-skiffin/multi-server
+  - docker push alex-skiffin/multi-worker
