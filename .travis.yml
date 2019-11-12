@@ -9,8 +9,15 @@ script:
   - docker run -e CI=true alexskiffin/docker-react npm run test
 
 after_success:
-  - docker build -t alexskiffin/multi-client
-
+  - docker build -t alexskiffin/multi-client ./client
+  - docker build -t alexskiffin/multi-nginx ./nginx
+  - docker build -t alexskiffin/multi-server ./server
+  - docker build -t alexskiffin/multi-worker ./worker
+  - echo "$docker_password" | docker login -u "$docker_id" -- password-stdin
+  - docker push alexskiffin/multi-client
+  - docker push alexskiffin/multi-nginx
+  - docker push alexskiffin/multi-server
+  - docker push alexskiffin/multi-worker
 # deploy:
 #   provider: elasticbeanstalk
 #   region: "us-east-2"
